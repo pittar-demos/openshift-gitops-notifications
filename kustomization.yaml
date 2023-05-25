@@ -1,0 +1,3 @@
+resources:
+  - petclinic/overlays/demo
+  - pipelines

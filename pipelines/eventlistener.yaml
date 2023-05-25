@@ -1,0 +1,20 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: rollout-app-el
+spec:
+  serviceAccountName: pipeline
+  triggers:
+    - name: server-post-prod-webhook
+      interceptors:
+        - name: "Only accept sync succeeded"
+          ref:
+            name: "cel"
+          params:
+          - name: "filter"
+            value: "body.state in ['success']"
+      bindings:
+        - kind: TriggerBinding
+          ref: rollout-app-pinding
+      template:
+        ref: rollout-app-template

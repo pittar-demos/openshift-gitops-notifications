@@ -1,0 +1,22 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: rollout-app-template
+spec:
+  params:
+  - name: deployment
+    description: Deployment to rollout
+    default: petclinic
+
+  resourcetemplates:
+  - apiVersion: tekton.dev/v1beta1
+    kind: PipelineRun
+    metadata:
+      generateName: rollout-app-$(tt.params.deployment)-
+    spec:
+      serviceAccountName: pipeline
+      pipelineRef:
+        name: rollout-app
+      params:
+      - name: deployment
+        value: $(tt.params.deployment)

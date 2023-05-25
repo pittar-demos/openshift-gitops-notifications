@@ -1,0 +1,10 @@
+namespace: notifications-demo
+
+resources:
+  - namespace.yaml
+  - pipeline.yaml
+  - triggertemplate.yaml
+  - triggerbinding.yaml
+  - trigger.yaml
+  - eventlistener.yaml
+  - route.yaml
