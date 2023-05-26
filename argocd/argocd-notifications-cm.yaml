@@ -5,7 +5,6 @@ metadata:
 data:
   service.webhook.rollout-app: |
     url: http://el-rollout-app-notifications-demo.apps.cluster-7r7dl.7r7dl.sandbox1205.opentlc.com
-
   template.rollout-app: |
     webhook:
       rollout-app:

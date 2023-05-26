@@ -40,11 +40,13 @@ spec:
         hs.status = "Progressing"
         hs.message = "Waiting for Gitea do deploy."
         return hs
-  resourceExclusions: |
+  resourceExclusions: | 
     - apiGroups:
-      - compliance.openshift.io
+      - tekton.dev
+      clusters:
+      - '*'
       kinds:
-      - ComplianceCheckResult
-      - ComplianceRemediation
+      - TaskRun
+      - PipelineRun
   rbac:
     defaultPolicy: role:admin
