@@ -4,7 +4,8 @@ kind: Kustomization
 namespace: notifications-demo
 
 resources:
-  - ../../base
+  - ../../base/pipelines
+  - ../../base/app
 
 images:
   - name: petclinic
