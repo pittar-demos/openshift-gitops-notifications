@@ -4,7 +4,7 @@ metadata:
   name: argocd-notifications-cm
 data:
   service.webhook.rollout-app: |
-    url: 'http://el-rollout-app-el.notifications-demo.svc:8080'
+    url: http://el-rollout-app-el.notifications-demo.svc:8080
 
   template.rollout-app: |
     webhook:
