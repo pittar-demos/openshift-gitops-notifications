@@ -1,8 +1,6 @@
 apiVersion: triggers.tekton.dev/v1beta1
 kind: EventListener
 metadata:
-  labels:
-    andrew: pitt
   name: rollout-app-el
 spec:
   serviceAccountName: pipeline
