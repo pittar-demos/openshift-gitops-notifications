@@ -1,4 +1,5 @@
 namespace: openshift-gitops
 
 resources:
+  - argocd.yaml
   - argocd-notifications-cm.yaml
