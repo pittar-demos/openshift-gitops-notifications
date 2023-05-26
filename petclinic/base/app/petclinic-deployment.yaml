@@ -2,7 +2,6 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   annotations:
-    andrew: pitt
     app.openshift.io/connects-to: petclinicdb
     app.openshift.io/vcs-ref: devsecops
     app.openshift.io/vcs-uri: https://github.com/pittar/spring-petclinic

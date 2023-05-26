@@ -3,12 +3,63 @@ kind: ConfigMap
 metadata:
   name: argocd-notifications-cm
 data:
+  trigger.on-created: |-
+    - description: Application is created.
+      oncePer: app.metadata.name
+      send:
+      - app-created
+      when: "true"
+  trigger.on-deleted: |-
+    - description: Application is deleted.
+      oncePer: app.metadata.name
+      send:
+      - app-deleted
+      when: app.metadata.deletionTimestamp != nil
+  trigger.on-deployed: |-
+    - description: Application is synced and healthy. Triggered once per commit.
+      oncePer: app.status.operationState.syncResult.revision
+      send:
+      - app-deployed
+      when: app.status.operationState.phase in ['Succeeded'] and app.status.health.status
+          == 'Healthy'
+  trigger.on-health-degraded: |-
+    - description: Application has degraded
+      send:
+      - app-health-degraded
+      when: app.status.health.status == 'Degraded'
+  trigger.on-sync-failed: |-
+    - description: Application syncing has failed
+      send:
+      - app-sync-failed
+      when: app.status.operationState.phase in ['Error', 'Failed']
+  trigger.on-sync-running: |-
+    - description: Application is being synced
+      send:
+      - app-sync-running
+      when: app.status.operationState.phase in ['Running']
+  trigger.on-sync-status-unknown: |-
+    - description: Application status is 'Unknown'
+      end:
+      - app-sync-status-unknown
+      when: app.status.sync.status == 'Unknown'
+  trigger.on-sync-succeeded: |-
+    - description: Application syncing has succeeded
+      send:
+      - rollout-app-sync
+      when: app.status.operationState.phase in ['Succeeded']
   service.webhook.rollout-app: |-
-    url: https://webhook.site/01170e28-5e04-456e-a7b8-e36306831c7d
+    url: http://el-rollout-app-el.notifications-demo.svc.cluster.local:8080
   template.rollout-app-sync: |-
     webhook:
       rollout-app:
         method: POST
         path: /
         body: |
-          {"state": "success"}
+          {
+            {{if eq .app.status.operationState.phase "Running"}} "state": "pending"{{end}}
+            {{if eq .app.status.operationState.phase "Succeeded"}} "state": "success"{{end}}
+            {{if eq .app.status.operationState.phase "Error"}} "state": "error"{{end}}
+            {{if eq .app.status.operationState.phase "Failed"}} "state": "error"{{end}},
+            "description": "ArgoCD",
+            "application": "{{.app.metadata.name}}"
+          }
