@@ -1,6 +1,8 @@
 kind: Application
 apiVersion: argoproj.io/v1alpha1
 metadata:
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync-succeeded.rollout-app: ""
   labels:
     gitops.ownedBy: openshift-gitops
   name: notifications-demo
