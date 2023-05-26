@@ -15,6 +15,6 @@ spec:
             value: "body.state in ['success']"
       bindings:
         - kind: TriggerBinding
-          ref: rollout-app-pinding
+          ref: rollout-app-binding
       template:
         ref: rollout-app-template

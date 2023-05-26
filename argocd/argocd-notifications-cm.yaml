@@ -4,7 +4,7 @@ metadata:
   name: argocd-notifications-cm
 data:
   service.webhook.rollout-app: |
-    url: http://el-rollout-app-el.notifications-demo.svc:8080
+    url: http://el-rollout-app-notifications-demo.apps.cluster-7r7dl.7r7dl.sandbox1205.opentlc.com
 
   template.rollout-app: |
     webhook:
@@ -12,11 +12,11 @@ data:
         method: POST
         path: /
         body: |
-        {
-          {{if eq .app.status.operationState.phase "Running"}} "state": "pending"{{end}}
-          {{if eq .app.status.operationState.phase "Succeeded"}} "state": "success"{{end}}
-          {{if eq .app.status.operationState.phase "Error"}} "state": "error"{{end}}
-          {{if eq .app.status.operationState.phase "Failed"}} "state": "error"{{end}},
-          "description": "ArgoCD Notification",
-          "application": "{{.app.metadata.name}}"
-        }
+          {
+            {{if eq .app.status.operationState.phase "Running"}} "state": "pending"{{end}}
+            {{if eq .app.status.operationState.phase "Succeeded"}} "state": "success"{{end}}
+            {{if eq .app.status.operationState.phase "Error"}} "state": "error"{{end}}
+            {{if eq .app.status.operationState.phase "Failed"}} "state": "error"{{end}},
+            "description": "ArgoCD Notification",
+            "application": "{{.app.metadata.name}}"
+          }
