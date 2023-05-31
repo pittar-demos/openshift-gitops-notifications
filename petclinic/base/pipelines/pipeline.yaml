@@ -12,7 +12,7 @@ spec:
   - name: openshift-client
     params:
     - name: SCRIPT
-      value: oc rollout restart deployment $(params.deployment)
+      value: oc rollout status deployment $(params.deployment) && oc rollout restart deployment $(params.deployment) && oc rollout status deployment $(params.deployment)
     - name: VERSION
       value: latest
     taskRef:
